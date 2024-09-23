@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from rest_framework import serializers   
 from movies.models import Movie
 
@@ -10,23 +11,14 @@ class MovieSerializer(serializers.ModelSerializer):
 
 
     def get_rate(self, obj):
-        reviews = obj.reviews.all()
-
-        if reviews:
-            sum_reviews = 0
-
-            for review in reviews:
-                sum_reviews += review.stars
-
-            reviews_count = reviews.count()
-            #reviews_count = len(reviews)
-
-            return sum_reviews / reviews_count
-            #return round(sum_reviews / reviews_count, 3)
-
+        rate = obj.reviews.aggregate(Avg('stars'))['stars__avg']
+        
+        if rate:
+            return rate
 
         return None
-
+        
+       
     def validate_release_date(self, value):
         if value.year < 1990:
             raise serializers.ValidationError("A data de lançamento não pode ser anterior a 1990.")
