@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumindo API ViaCEP</title>
+</head>
+<body>
+    <h1>Consulta Endereço ViaCEP</h1>
+    <label>Digite seu CEP:</label>
+    <input type="text" id="cep" name="cep" placeholder="Digite seu CEP">
+    <button onclick="consultarEndereco()">Buscar</button>
+    <div id="resultado">
+        <p>Seu resultado aqui</p>
+    </div>
+
+    <script>
+        function consultarEndereco() {
+            const cep = document.getElementById('cep').value;
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultado = document.getElementById('resultado');
+                    resultado.innerHTML = `
+                        <p>CEP: ${data.cep}</p>
+                        <p>Logradouro: ${data.logradouro}</p>
+                        <p>Complemento: ${data.complemento}</p>
+                        <p>Bairro: ${data.bairro}</p>
+                        <p>Cidade: ${data.localidade}</p>
+                        <p>Estado: ${data.uf}</p>
+                    `;
+                })
+                .catch(error => console.error('Erro ao buscar CEP:', error));
+        }
+    </script>
+</body>
+</html>

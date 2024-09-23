@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Atores</title>
+</head>
+<body>
+<button id="fetchActors">Buscar Atores</button>
+<ul id="actorsList"></ul>
+<button id="fetchData">Buscar Dados</button>
+<ul id="dataList"></ul>
+<script>
+document.getElementById('fetchData').addEventListener('click', function() {
+    fetch('http://127.0.0.1:8000/movies')
+        .then(response => response.json())
+        .then(data => {
+            const dataList = document.getElementById('dataList');
+            dataList.innerHTML = '';
+            data.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = item.name;
+                dataList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+</script>
+<script>
+document.getElementById('fetchActors').addEventListener('click', function() {
+    fetch('http://127.0.0.1:8000/actors')
+        .then(response => response.json())
+        .then(data => {
+            const actorsList = document.getElementById('actorsList');
+            actorsList.innerHTML = '';
+            data.forEach(actor => {
+                const listItem = document.createElement('li');
+                listItem.textContent = actor.name;
+                actorsList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Error fetching actors:', error));
+});
+</script>
+</body>
+</html>

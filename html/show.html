@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h1>Show</h1>
+    <button id="fetchMovies">Fetch Movies</button>
+    <div id="moviesList"></div>
+
+    <script>
+    document.getElementById('fetchMovies').addEventListener('click', function() {
+        fetch('http://127.0.0.1:8000/movies/')
+            .then(response => response.json())
+            console.log(response)
+            .then(data => {
+                const moviesList = document.getElementById('moviesList');
+                moviesList.innerHTML = '';
+                data.forEach(movie => {
+                    const movieItem = document.createElement('div');
+                    movieItem.textContent = movie.title;
+                    moviesList.appendChild(movieItem);
+                });
+            })
+            .catch(error => console.error('Error fetching movies:', error));
+    });
+    </script>
+</body>
+</html>
