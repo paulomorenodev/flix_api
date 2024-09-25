@@ -2,6 +2,11 @@ from rest_framework import permissions
 
 class GenrePermissionClass(permissions.BasePermission):
    def has_permission(self, request, view):
+     #    print(request.method)
+     #    print(request.content_type)
+     #    print(request.META['USERDOMAIN'])
+     #    print(request.headers['User-Agent'])
+
         if request.method in ['GET', 'HEAD', 'OPTIONS']:
              return request.user.has_perm('genres.view_genre')
         
