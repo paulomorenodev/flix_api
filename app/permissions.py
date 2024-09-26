@@ -1,5 +1,6 @@
 from rest_framework import permissions
 
+
 class GlobalDefaultPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
@@ -10,10 +11,10 @@ class GlobalDefaultPermission(permissions.BasePermission):
         )
 
         if not model_permission_codename:
-            return False                
-        
+            return False
+
         return request.user.has_perm(model_permission_codename)
-    
+
     def __get_model_permission_codename(self, method, view):
         try:
             model_name = view.queryset.model._meta.model_name
@@ -22,8 +23,7 @@ class GlobalDefaultPermission(permissions.BasePermission):
             return f'{app_label}.{action}_{model_name}'
         except AttributeError:
             return None
-    
-            
+
     def __get_action_sufix(self, method):
         method_action = {
             'GET': 'view',
@@ -35,9 +35,7 @@ class GlobalDefaultPermission(permissions.BasePermission):
         }
 
         return method_action.get(method, '')
-        
-        
-        
+
         # Codigo alternativo - Testar
         # if method == 'GET':
         #     return 'view'

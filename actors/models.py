@@ -5,6 +5,7 @@ NATIONALITY_CHOICES = (
     ('BRA', 'Brasil'),
 )
 
+
 class Actor(models.Model):
     name = models.CharField(max_length=30)
     birthday = models.DateField(null=True, blank=True)
